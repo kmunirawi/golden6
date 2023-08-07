@@ -8,12 +8,22 @@ use App\Http\Requests\UpdateArticleRequest;
 
 class ArticleController extends Controller
 {
+
+    //** special function */
+    public function sayHello()
+    {
+        return 'Hello';      
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // Query builder ---> table
+        // Object Rerational Mapping  --> Model
+        $articles = Article::all(); 
+        dd($articles);
+
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,11 @@ Route::prefix('employee')->group(function(){
     });
 
 });
+
+
+// Controller route
+Route::get('greeting', [ArticleController::class, 'sayHello']);
+// Route::get('all-articles', [ArticleController::class, 'index']);
+
+// Resource Route
+Route::resource('articles', ArticleController::class);
