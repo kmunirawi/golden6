@@ -77,3 +77,16 @@ Route::resource('users', UserController::class)->names(
     ]
 // )->except(['edit', 'update', 'destroy']);
 )->only(['index', 'create', 'store', 'show']);
+
+// dashboard
+Route::prefix('admin')->group(function(){
+
+    // dashboard
+    // Route::get('/', function(){
+    //     return view('dashboard.index');
+    // });
+    
+    // dashboard - articles
+    Route::resource('articles', ArticleController::class);
+
+});
