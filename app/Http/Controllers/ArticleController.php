@@ -22,7 +22,9 @@ class ArticleController extends Controller
         // Query builder ---> table
         // Object Rerational Mapping  --> Model
         $articles = Article::all(); 
-        dd($articles);
+        // dd($articles);
+        // return view('articles.index', []);
+        return view('articles.index')->with('articles', $articles);
 
     }
 
@@ -47,7 +49,9 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        //
+        // $article = Article::findOrFail($article->id);
+        // dd($article->content);
+        return view('articles.show')->with('article', $article);
     }
 
     /**

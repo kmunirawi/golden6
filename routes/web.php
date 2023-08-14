@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,4 +66,14 @@ Route::get('greeting', [ArticleController::class, 'sayHello']);
 // Route::get('all-articles', [ArticleController::class, 'index']);
 
 // Resource Route
+
+//Articles
 Route::resource('articles', ArticleController::class);
+
+//Users
+Route::resource('users', UserController::class)->names(
+    [
+        'index' => 'users.all',
+    ]
+// )->except(['edit', 'update', 'destroy']);
+)->only(['index', 'create', 'store', 'show']);
