@@ -82,9 +82,9 @@ Route::resource('users', UserController::class)->names(
 Route::prefix('admin')->group(function(){
 
     // dashboard
-    // Route::get('/', function(){
-    //     return view('dashboard.index');
-    // });
+    Route::get('/', function(){
+        return view('dashboard.index');
+    })->name('dashboard.index');
     
     // dashboard - articles
     Route::resource('articles', ArticleController::class);

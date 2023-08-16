@@ -34,6 +34,7 @@
                             <th>Status</th>
                             <th>User</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,9 +42,14 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a href="{{ route('articles.show', $article->id) }}">{{ $article->title }}</a></td>
-                                <td>{{ $article->status ? 'Active' : 'Inactive' }}</td>
+                                <td>{!!$article->status ? "<i class='fas fa-check-square' style='color: #269310;'></i>" : "<i class='fas fa-times' style='color: #fa0000;'></i>"!!}</td>
                                 <td><span class="tag tag-success"></span>{{ $article->user_id }}</td>
                                 <td>{{ $article->created_at }}</td>
+                                <td>
+                                    <a href="{{route('articles.show', $article->id)}}"><span class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></span></a>
+                                    <a href="{{route('articles.edit', $article->id)}}"><span class="btn btn-info btn-sm"><i class="fa fa-edit"></i></span></a>
+                                    <a href="{{route('articles.destroy', $article->id)}}"><span class="btn btn-danger btn-sm"><i class="fa fa-eye-dropper"></i></span></a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
