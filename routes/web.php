@@ -88,5 +88,6 @@ Route::prefix('admin')->group(function(){
     
     // dashboard - articles
     Route::resource('articles', ArticleController::class);
+    Route::resource('users', UserController::class);
 
 });

@@ -13,7 +13,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        dd($users);
+
+        return view('dashboard.users.index', ['users'=> $users]);
+        // dd($users);
     }
 
     /**
@@ -21,7 +23,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.users.create');
     }
 
     /**
@@ -29,15 +31,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->gender);
+        User::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'mobile'    => $request->mobile,
+            'gender'    => $request->gender,
+            'password'  => $request->password,
+        ]);
+
+        return redirect()->route('users.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( User $user)
     {
-        //
+        return view('dashboard.users.show', ['user' => $user]);
     }
 
     /**
