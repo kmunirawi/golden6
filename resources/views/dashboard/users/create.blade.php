@@ -61,6 +61,12 @@
                             placeholder="Password">
                     </div>
 
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password Confirmation</label>
+                        <input name="password_confirmation" type="password" class="form-control" id="exampleInputPassword1"
+                            placeholder="Password">
+                    </div>
+
                 </div>
                 <!-- /.card-body -->
 

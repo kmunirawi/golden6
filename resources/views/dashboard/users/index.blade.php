@@ -31,6 +31,7 @@ All Users
                         <th>Email</th>
                         <th>Gender</th>
                         <th>Mobile</th>
+                        <th>Is Archive</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -42,10 +43,18 @@ All Users
                             <td>{{ $user->email }}</td>
                             <td>{!!($user->gender) == 1 ? "<i class='fas fa-check-square' style='color: #269310;'></i>" : "<i class='fas fa-times' style='color: #fa0000;'></i>"!!}</td>
                             <td>{{ $user->mobile }}</td>
+                            <td> @if ($user->trashed()) <a href="{{route('users.restore', $user )}}">TRASHED</a> @else 'ACTIVE' @endif </td>
                             <td>
                                 <a href="{{route('users.show', $user->id)}}"><span class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></span></a>
                                 <a href="{{route('users.edit', $user->id)}}"><span class="btn btn-info btn-sm"><i class="fa fa-edit"></i></span></a>
-                                <a href="{{route('users.destroy', $user->id)}}"><span class="btn btn-danger btn-sm"><i class="fa fa-eye-dropper"></i></span></a>
+                            </td>
+                            <td>
+                                <form method="post" action="{{ route('users.destroy', $user->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete" />
+                                </form>
+                                
                             </td>
                         </tr>
                     @empty

@@ -41,19 +41,18 @@
                             placeholder="Enter Email">
                     </div>
 
-
                     <!-- radio -->
                     <div class="form-group">
+                        <label>Gender</label>
                         <div class="form-check">
-                            <input @if($user->gender == 1) checked @endif class="form-check-input" type="radio" name="gender">
+                            <input class="form-check-input" type="radio" name="gender" @if(old('gender', $user->gender) == '1') checked @endif value='1'>
                             <label class="form-check-label">Male</label>
                         </div>
                         <div class="form-check">
-                            <input  @if($user->gender == 2) checked @endif class="form-check-input" type="radio" name="gender">
+                            <input class="form-check-input" type="radio" name="gender" @if(old('gender', $user->gender) == '2') checked @endif value='2'>
                             <label class="form-check-label">Female</label>
                         </div>
                     </div>
-
                 </div>
                 <!-- /.card-body -->
 

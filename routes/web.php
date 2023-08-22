@@ -71,12 +71,12 @@ Route::get('greeting', [ArticleController::class, 'sayHello']);
 Route::resource('articles', ArticleController::class);
 
 //Users
-Route::resource('users', UserController::class)->names(
-    [
-        'index' => 'users.all',
-    ]
-// )->except(['edit', 'update', 'destroy']);
-)->only(['index', 'create', 'store', 'show']);
+// Route::resource('users', UserController::class)->names(
+//     [
+//         'index' => 'users.all',
+//     ]
+// // )->except(['edit', 'update', 'destroy']);
+// )->only(['index', 'create', 'store', 'show']);
 
 // dashboard
 Route::prefix('admin')->group(function(){
@@ -89,5 +89,8 @@ Route::prefix('admin')->group(function(){
     // dashboard - articles
     Route::resource('articles', ArticleController::class);
     Route::resource('users', UserController::class);
+    Route::post('users/restore/{user}', [UserController::class, 'restore'])->name('users.restore');
+    Route::get('users/change-password', [UserController::class, 'getChangePasswordForm']);
+    Route::post('users/change-password', [UserController::class, 'changePassword']);
 
 });

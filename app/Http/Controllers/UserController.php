@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -12,7 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        // $users = User::all();
+        $users = User::withTrashed()->get();
 
         return view('dashboard.users.index', ['users' => $users]);
         // dd($users);
@@ -37,14 +40,15 @@ class UserController extends Controller
             'email'     => ['required', 'email'],
             'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
             'gender'    => ['required', 'in:1,2'],
-            'password'  => ['required'],
+            'password'  => ['required', 'confirmed', Password::min(6)],
         ]);
         User::create([
             'name'      => $request->name,
             'email'     => $request->email,
             'mobile'    => $request->mobile,
             'gender'    => $request->gender,
-            'password'  => $request->password,
+            // 'password'  => Hash::make($request->password),
+            'password'  => bcrypt($request->password),
         ]);
 
         return redirect()->route('users.index');
@@ -92,8 +96,29 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route('users.index');
+    }
+    
+    
+    public function restore(User $user)
+    {
+        dd('QWERTYUIUTREWQ');
+        $user->restore();
+        return redirect()->route('users.index');
+    }
+    
+    // change user password
+    public function getChangePasswordForm()
+    {
+      return view('dashboard.users.change-password');
+    }
+
+    public function changePassword()
+    {
+      
     }
 }
