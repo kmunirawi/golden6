@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view('dashboard.users.index', ['users'=> $users]);
+        return view('dashboard.users.index', ['users' => $users]);
         // dd($users);
     }
 
@@ -31,7 +31,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->gender);
+
+        $validation = $request->validate([
+            'name'      => ['required', 'string', 'min:3', 'max:20'],
+            'email'     => ['required', 'email'],
+            'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
+            'gender'    => ['required', 'in:1,2'],
+            'password'  => ['required'],
+        ]);
         User::create([
             'name'      => $request->name,
             'email'     => $request->email,
@@ -42,11 +49,11 @@ class UserController extends Controller
 
         return redirect()->route('users.index');
     }
-
+    
     /**
      * Display the specified resource.
      */
-    public function show( User $user)
+    public function show(User $user)
     {
         return view('dashboard.users.show', ['user' => $user]);
     }
@@ -54,17 +61,32 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('dashboard.users.edit', [ 'user'=> $user]);
     }
-
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        
+        $validation = $request->validate([
+            'name'      => ['required', 'string', 'min:3', 'max:20'],
+            'email'     => ['required', 'email'],
+            'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
+            'gender'    => ['required'],
+        ]);
+        // dd($request->gender);
+        $user->update([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'mobile'    => $request->mobile,
+            'gender'    => $request->gender,
+        ]);
+        
+        return view('dashboard.users.index');
     }
 
     /**
