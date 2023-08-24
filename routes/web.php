@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // named route
+
+Route::get('/test/', function(){
+    $user = User::findOrFail(9);
+    dd($user->articles);
+
+});
+
+
+
 Route::get('/', function () {
 
     $mydata = [

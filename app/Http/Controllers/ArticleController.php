@@ -22,7 +22,8 @@ class ArticleController extends Controller
     {
         // Query builder ---> table
         // Object Rerational Mapping  --> Model
-        $articles = Article::all();
+        // $articles = Article::all();
+        $articles = Article::paginate(4);
         // dd($articles);
         // return view('articles.index', []);
         return view('dashboard.articles.index')->with('articles', $articles);

@@ -36,6 +36,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    /**Relations */
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);    
+    }
+
+    public function articles()
+    {
+      return $this->hasMany(Article::class);
+    }
+
     /**
      * The attributes that should be cast.
      *
