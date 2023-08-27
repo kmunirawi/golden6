@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,68 +18,73 @@ use Illuminate\Support\Facades\Route;
 */
 // named route
 
-Route::get('/test/', function(){
-    $user = User::findOrFail(9);
-    dd($user->articles);
+// Route::get('/test/', function(){
+//     $user = User::findOrFail(9);
 
-});
+//     // $user->roles()->attach([1, 4]);
+
+//     $user->roles()->sync([1, 2, 3]);
+
+//     // $user->roles()->detach(1);
+
+// });
 
 
 
-Route::get('/', function () {
+// Route::get('/', function () {
 
-    $mydata = [
-        'name' => 'Ali',
-        'age' => 40,
-    ];
+//     $mydata = [
+//         'name' => 'Ali',
+//         'age' => 40,
+//     ];
 
-    return view('welcome', ['mydata' => $mydata]);
-})->name('back.to.main.page');
+//     return view('welcome', ['mydata' => $mydata]);
+// })->name('back.to.main.page');
 
-//View Route (1)
-Route::get('/hello', function () {
-    $mydata = [
-        'name' => 'Ali',
-        'age' => 40,
-    ];
-    return view('mytest.hello', ['data' => $mydata]);
-});
+// //View Route (1)
+// Route::get('/hello', function () {
+//     $mydata = [
+//         'name' => 'Ali',
+//         'age' => 40,
+//     ];
+//     return view('mytest.hello', ['data' => $mydata]);
+// });
 
-//View Route (2)
-// with data
-$mydata2 = [
-    'name' => 'Ali',
-    'age' => 40,
-];
-Route::view('hello2', 'welcome', ['mydata' => $mydata2]);
+// //View Route (2)
+// // with data
+// $mydata2 = [
+//     'name' => 'Ali',
+//     'age' => 40,
+// ];
+// Route::view('hello2', 'welcome', ['mydata' => $mydata2]);
 
-// Redirect Route - Internal
-Route::redirect('testtest', 'hello2');
+// // Redirect Route - Internal
+// Route::redirect('testtest', 'hello2');
 
-// Redirect Route - External
-Route::redirect('testtest2', 'https://www.google.com');
+// // Redirect Route - External
+// Route::redirect('testtest2', 'https://www.google.com');
 
-// group - prefix
-Route::prefix('employee')->group(function(){
-    Route::get('change-password', function(){
-        dd('change password');
-    });
+// // group - prefix
+// Route::prefix('employee')->group(function(){
+//     Route::get('change-password', function(){
+//         dd('change password');
+//     });
     
-    Route::get('edit-user', function(){
-        dd('edit user');
-    });
+//     Route::get('edit-user', function(){
+//         dd('edit user');
+//     });
 
-});
+// });
 
 
-// Controller route
-Route::get('greeting', [ArticleController::class, 'sayHello']);
-// Route::get('all-articles', [ArticleController::class, 'index']);
+// // Controller route
+// Route::get('greeting', [ArticleController::class, 'sayHello']);
+// // Route::get('all-articles', [ArticleController::class, 'index']);
 
-// Resource Route
+// // Resource Route
 
-//Articles
-Route::resource('articles', ArticleController::class);
+// //Articles
+// Route::resource('articles', ArticleController::class);
 
 //Users
 // Route::resource('users', UserController::class)->names(
@@ -89,7 +95,7 @@ Route::resource('articles', ArticleController::class);
 // )->only(['index', 'create', 'store', 'show']);
 
 // dashboard
-Route::prefix('admin')->group(function(){
+Route::prefix('admin')->middleware('auth')->group(function(){
 
     // dashboard
     Route::get('/', function(){
@@ -104,3 +110,6 @@ Route::prefix('admin')->group(function(){
     Route::post('users/change-password', [UserController::class, 'changePassword']);
 
 });
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

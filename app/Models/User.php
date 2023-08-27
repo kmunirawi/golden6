@@ -47,6 +47,11 @@ class User extends Authenticatable
       return $this->hasMany(Article::class);
     }
 
+    public function roles()
+    {
+      return $this->belongsToMany(Role::class);
+    }
+
     /**
      * The attributes that should be cast.
      *
