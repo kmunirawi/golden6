@@ -104,7 +104,7 @@ Route::prefix('admin')->middleware('auth')->group(function(){
     
     // dashboard - articles
     Route::resource('articles', ArticleController::class);
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);//->middleware('checkAdmin');
     Route::post('users/restore/{user}', [UserController::class, 'restore'])->name('users.restore');
     Route::get('users/change-password', [UserController::class, 'getChangePasswordForm']);
     Route::post('users/change-password', [UserController::class, 'changePassword']);

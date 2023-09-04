@@ -2,13 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckAdmin;
+use App\Http\Requests\User\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(CheckAdmin::class);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +45,7 @@ class UserController extends Controller
 
         $validation = $request->validate([
             'name'      => ['required', 'string', 'min:3', 'max:20'],
-            'email'     => ['required', 'email'],
+            'email'     => ['required', 'email', 'unique:users,email'],
             'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
             'gender'    => ['required', 'in:1,2'],
             'password'  => ['required', 'confirmed', Password::min(6)],
@@ -53,7 +61,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index');
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -67,21 +75,21 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('dashboard.users.edit', [ 'user'=> $user]);
+        return view('dashboard.users.edit', ['user' => $user]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        
-        $validation = $request->validate([
-            'name'      => ['required', 'string', 'min:3', 'max:20'],
-            'email'     => ['required', 'email'],
-            'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
-            'gender'    => ['required'],
-        ]);
+
+        // $validation = $request->validate([
+        //     'name'      => ['required', 'string', 'min:3', 'max:20'],
+        //     'email'     => ['required', 'email'],
+        //     'mobile'    => ['nullable', 'numeric', 'min:9', 'max:9'],
+        //     'gender'    => ['required'],
+        // ]);
         // dd($request->gender);
         $user->update([
             'name'      => $request->name,
@@ -89,8 +97,8 @@ class UserController extends Controller
             'mobile'    => $request->mobile,
             'gender'    => $request->gender,
         ]);
-        
-        return view('dashboard.users.index');
+
+        return redirect()->route('users.index');// view('dashboard.users.index');
     }
 
     /**
@@ -102,23 +110,22 @@ class UserController extends Controller
 
         return redirect()->route('users.index');
     }
-    
-    
+
+
     public function restore(User $user)
     {
         dd('QWERTYUIUTREWQ');
         $user->restore();
         return redirect()->route('users.index');
     }
-    
+
     // change user password
     public function getChangePasswordForm()
     {
-      return view('dashboard.users.change-password');
+        return view('dashboard.users.change-password');
     }
 
     public function changePassword()
     {
-      
     }
 }
